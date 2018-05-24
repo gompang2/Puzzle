@@ -4,16 +4,45 @@ using UnityEngine;
 
 public class Square : MonoBehaviour {
     
-    float speed = 0.2f; // 이동속도
+    [SerializeField] float speed = 0.2f; // 이동속도
     bool isMove; // 현재 움직이는 중인가?
     Vector2 targetPos; // 이동 목표 위치
+    static int num = 0;
+    public bool isCheck = false;
 
+    public int puzzleNum;
     public bool IsMove { get { return isMove; } }
-    public int indexNum;
 
 	// Use this for initialization
 	void Start () {
         isMove = false;
+        puzzleNum = Random.Range(0, 7);
+        gameObject.name = "square" + num++.ToString();
+
+        switch (puzzleNum)
+        {
+            case 0:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+                break;
+            case 1:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 160, 0);
+                break;
+            case 2:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 0);
+                break;
+            case 3:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+                break;
+            case 4:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0, 255);
+                break;
+            case 5:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 160, 0);
+                break;
+            case 6:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 255);
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -32,8 +61,9 @@ public class Square : MonoBehaviour {
 
         if (targetPos == (Vector2)transform.position)
         {
+            GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             isMove = false;
-            GameObject.Find("GameManager").GetComponent<GameManager>().CreateSquare();
+            if(!gameManager.CheckSquaerIsMove()) gameManager.CreateSquare();
         }
 
     }
