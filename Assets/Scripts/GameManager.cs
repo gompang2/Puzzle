@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
     Vector2[] removeIndex;
 
     int stack = 1;
+    int currentPuzzleNum = 0;
 
 
     // Use this for initialization
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour {
         }
 
         CreateSquare();
+        removeIndex = new Vector2[64];
     }
 
     // Update is called once per frame
@@ -65,12 +67,12 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
+
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (CheckSquaerIsMove()) return;
-            CheckBlock();
 
 
             for (int y = 0; y < 8; y++)
@@ -87,14 +89,13 @@ public class GameManager : MonoBehaviour {
 
                     if (squareArray[y, topX] == null && squareArray[y, x] != null)
                     {
-
-
                         squareArray[y, topX] = squareArray[y, x];
                         squareArray[y, x] = null;
                         squareArray[y, topX].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * topX), zeroIndexPos.y - (0.6f * y)));
                     }
                 }
             }
+
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -121,6 +122,7 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
+
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -148,9 +150,8 @@ public class GameManager : MonoBehaviour {
                     }
                 }
             }
+
         }
-
-
     }
 
     public void CreateSquare()
@@ -217,18 +218,48 @@ public class GameManager : MonoBehaviour {
         {
             for(int x = 0; x < 8; x++)
             {
-                if (squareArray[y, x].GetComponent<Square>().isCheck) return;
+                if (squareArray[y,x] == null) continue;
+                if (squareArray[y, x].GetComponent<Square>().isCheck) continue;
 
-                stack = 1;
+                stack = 0;
+                currentPuzzleNum = squareArray[y, x].GetComponent<Square>().puzzleNum;
 
-                CheckSquare(x, y, squareArray[y, x].GetComponent<Square>().puzzleNum);
+                CheckSquare(x, y);
+
+                Debug.Log(x.ToString() + " " + y.ToString() + " " + stack.ToString() + " " + currentPuzzleNum);
+
+                if (stack >= 3)
+                {
+                    for (int i = 0; i < stack; i++)
+                    {
+                        Destroy(squareArray[(int)removeIndex[i].y, (int)removeIndex[i].x]);
+                    }
+                }
+            }
+        }
+
+        for(int y = 0; y < 8; y++)
+        {
+            for(int x = 0; x < 8; x++)
+            {
+                if (squareArray[y, x] == null) continue;
+                squareArray[y, x].GetComponent<Square>().isCheck = false;
             }
         }
     }
 
-    void CheckSquare(int x, int y, int _puzzleNum)
+    void CheckSquare(int x, int y)
     {
+        if (squareArray[y, x] == null) return;
+        if(squareArray[y,x].GetComponent<Square>().puzzleNum == currentPuzzleNum && !squareArray[y, x].GetComponent<Square>().isCheck)
+        {
+            removeIndex[stack++] = new Vector2(x, y);
+            squareArray[y, x].GetComponent<Square>().isCheck = true;
 
-
+            if (0 <= x - 1) CheckSquare(x - 1, y);
+            if (7 >= x + 1) CheckSquare(x + 1, y);
+            if (0 <= y - 1) CheckSquare(x, y - 1);
+            if (7 >= y + 1) CheckSquare(x, y + 1);
+        }
     }
 }

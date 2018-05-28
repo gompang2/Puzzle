@@ -22,25 +22,25 @@ public class Square : MonoBehaviour {
         switch (puzzleNum)
         {
             case 0:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
                 break;
             case 1:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 160, 0);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
                 break;
             case 2:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 0);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
                 break;
             case 3:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
                 break;
             case 4:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0, 255);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.magenta;
                 break;
             case 5:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 160, 0);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.black;
                 break;
             case 6:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 0, 255);
+                gameObject.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
         }
     }
@@ -63,7 +63,11 @@ public class Square : MonoBehaviour {
         {
             GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             isMove = false;
-            if(!gameManager.CheckSquaerIsMove()) gameManager.CreateSquare();
+            if (!gameManager.CheckSquaerIsMove())
+            {
+                gameManager.CheckMatch();
+                gameManager.CreateSquare();
+            }
         }
 
     }
