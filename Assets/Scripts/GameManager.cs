@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour {
     Vector2[] removeIndex;
 
     int stack = 1;
-    int currentPuzzleNum = 0;
+    int currentPuzzleNum;
 
 
     // Use this for initialization
