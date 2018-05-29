@@ -12,37 +12,14 @@ public class Square : MonoBehaviour {
 
     public int puzzleNum;
     public bool IsMove { get { return isMove; } }
+    public Sprite[] gemSprite;
 
 	// Use this for initialization
 	void Start () {
         isMove = false;
         puzzleNum = Random.Range(0, 7);
         gameObject.name = "square" + num++.ToString();
-
-        switch (puzzleNum)
-        {
-            case 0:
-                gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-                break;
-            case 1:
-                gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
-                break;
-            case 2:
-                gameObject.GetComponent<SpriteRenderer>().color = Color.green;
-                break;
-            case 3:
-                gameObject.GetComponent<SpriteRenderer>().color = Color.cyan;
-                break;
-            case 4:
-                gameObject.GetComponent<SpriteRenderer>().color = Color.magenta;
-                break;
-            case 5:
-                gameObject.GetComponent<SpriteRenderer>().color = Color.black;
-                break;
-            case 6:
-                gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                break;
-        }
+        gameObject.GetComponent<SpriteRenderer>().sprite = gemSprite[puzzleNum];
     }
 
     // Update is called once per frame

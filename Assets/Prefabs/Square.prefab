@@ -53,7 +53,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.2
+  isCheck: 0
   puzzleNum: 0
+  gemSprite:
+  - {fileID: 21300034, guid: 3e86cb1fc2c6b804d9c2f25449b5d926, type: 3}
+  - {fileID: 21300030, guid: 3e86cb1fc2c6b804d9c2f25449b5d926, type: 3}
+  - {fileID: 21300024, guid: 3e86cb1fc2c6b804d9c2f25449b5d926, type: 3}
+  - {fileID: 21300018, guid: 3e86cb1fc2c6b804d9c2f25449b5d926, type: 3}
+  - {fileID: 21300016, guid: 3e86cb1fc2c6b804d9c2f25449b5d926, type: 3}
+  - {fileID: 21300012, guid: 3e86cb1fc2c6b804d9c2f25449b5d926, type: 3}
+  - {fileID: 21300002, guid: 3e86cb1fc2c6b804d9c2f25449b5d926, type: 3}
 --- !u!212 &212273751882476846
 SpriteRenderer:
   m_ObjectHideFlags: 1
