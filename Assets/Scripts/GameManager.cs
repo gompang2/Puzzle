@@ -26,13 +26,13 @@ public class GameManager : MonoBehaviour {
         squareArray = new GameObject[8, 8];
         textIndex = new Text[8, 8];
         tempIndex = new GameObject[8, 8];
-        for(int i = 0; i < 8; i++)
-        {
-            for(int y = 0; y < 8; y++)
-            {
-                tempIndex[i, y] = Instantiate(temp, new Vector3(-7 + (0.5f * y), 4 - (0.5f * i), 0), Quaternion.identity);
-            }
-        }
+        //for(int i = 0; i < 8; i++)
+        //{
+        //    for(int y = 0; y < 8; y++)
+        //    {
+        //        tempIndex[i, y] = Instantiate(temp, new Vector3(-7 + (0.5f * y), 4 - (0.5f * i), 0), Quaternion.identity);
+        //    }
+        //}
 
         CreateSquare();
         removeIndex = new Vector2[64];
@@ -43,114 +43,127 @@ public class GameManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            if (CheckSquaerIsMove()) return;
-
-
-
-            for (int y = 0; y < 8; y++)
-            {
-                for (int x = 1; x < 8; x++)
-                {
-                    if (squareArray[y, x] == null) { continue; }
-                    int topX = 0;
-
-                    for (int i = x - 1; i >= 0; i--)
-                    {
-                        if (squareArray[y, i] == null) topX = i;
-                    }
-
-                    if (squareArray[y, topX] == null && squareArray[y, x] != null)
-                    {
-                        squareArray[y, topX] = squareArray[y, x];
-                        squareArray[y, x] = null;
-                        squareArray[y, topX].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * topX), zeroIndexPos.y - (0.6f * y)));
-                    }
-                }
-            }
-
+            MoveLeft();
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (CheckSquaerIsMove()) return;
-
-
-            for (int y = 0; y < 8; y++)
-            {
-                for (int x = 6; x >= 0; x--)
-                {
-                    if (squareArray[y, x] == null) { continue; }
-                    int topX = 7;
-
-                    for (int i = x + 1; i < 8; i++)
-                    {
-                        if (squareArray[y, i] == null) topX = i;
-                    }
-
-                    if (squareArray[y, topX] == null && squareArray[y, x] != null)
-                    {
-                        squareArray[y, topX] = squareArray[y, x];
-                        squareArray[y, x] = null;
-                        squareArray[y, topX].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * topX), zeroIndexPos.y - (0.6f * y)));
-                    }
-                }
-            }
-
+            MoveRight();
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (CheckSquaerIsMove()) return;
-
-            for (int y = 1; y < 8; y++)
-            {
-                for (int x = 0; x < 8; x++)
-                {
-                    if (squareArray[y, x] == null) { continue; }
-                    int topY = 0;
-
-                    for (int i = y - 1; i >= 0; i--)
-                    {
-                        if (squareArray[i, x] == null) topY = i;
-                    }
-
-                    if (squareArray[topY, x] == null && squareArray[y, x] != null)
-                    {
-                        squareArray[topY, x] = squareArray[y, x];
-                        squareArray[y, x] = null;
-                        squareArray[topY, x].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * x), zeroIndexPos.y - (0.6f * topY)));
-                    }
-                }
-            }
-
+            MoveUp();
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (CheckSquaerIsMove()) return;
+            MoveDown();
+        }
+    }
 
-            for (int y = 6; y >= 0; y--)
+    public void MoveLeft()
+    {
+        if (CheckSquaerIsMove()) return;
+
+        for (int y = 0; y < 8; y++)
+        {
+            for (int x = 1; x < 8; x++)
             {
-                for (int x = 0; x < 8; x++)
+                if (squareArray[y, x] == null) { continue; }
+                int topX = 0;
+
+                for (int i = x - 1; i >= 0; i--)
                 {
-                    if (squareArray[y, x] == null) { continue; }
-                    int topY = 7;
+                    if (squareArray[y, i] == null) topX = i;
+                }
 
-                    for (int i = y + 1; i < 8; i++)
-                    {
-                        if (squareArray[i, x] == null)
-                            topY = i;
-                    }
-
-                    if (squareArray[topY, x] == null && squareArray[y, x] != null)
-                    {
-                        squareArray[topY, x] = squareArray[y, x];
-                        squareArray[y, x] = null;
-                        squareArray[topY, x].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * x), zeroIndexPos.y - (0.6f * topY)));
-                    }
+                if (squareArray[y, topX] == null && squareArray[y, x] != null)
+                {
+                    squareArray[y, topX] = squareArray[y, x];
+                    squareArray[y, x] = null;
+                    squareArray[y, topX].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * topX), zeroIndexPos.y - (0.6f * y)));
                 }
             }
+        }
+    }
 
+    public void MoveRight()
+    {
+        if (CheckSquaerIsMove()) return;
+
+        for (int y = 0; y < 8; y++)
+        {
+            for (int x = 6; x >= 0; x--)
+            {
+                if (squareArray[y, x] == null) { continue; }
+                int topX = 7;
+
+                for (int i = x + 1; i < 8; i++)
+                {
+                    if (squareArray[y, i] == null) topX = i;
+                }
+
+                if (squareArray[y, topX] == null && squareArray[y, x] != null)
+                {
+                    squareArray[y, topX] = squareArray[y, x];
+                    squareArray[y, x] = null;
+                    squareArray[y, topX].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * topX), zeroIndexPos.y - (0.6f * y)));
+                }
+            }
+        }
+    }
+
+    public void MoveUp()
+    {
+        if (CheckSquaerIsMove()) return;
+
+        for (int y = 1; y < 8; y++)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                if (squareArray[y, x] == null) { continue; }
+                int topY = 0;
+
+                for (int i = y - 1; i >= 0; i--)
+                {
+                    if (squareArray[i, x] == null) topY = i;
+                }
+
+                if (squareArray[topY, x] == null && squareArray[y, x] != null)
+                {
+                    squareArray[topY, x] = squareArray[y, x];
+                    squareArray[y, x] = null;
+                    squareArray[topY, x].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * x), zeroIndexPos.y - (0.6f * topY)));
+                }
+            }
+        }
+    }
+
+    public void MoveDown()
+    {
+        if (CheckSquaerIsMove()) return;
+
+        for (int y = 6; y >= 0; y--)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                if (squareArray[y, x] == null) { continue; }
+                int topY = 7;
+
+                for (int i = y + 1; i < 8; i++)
+                {
+                    if (squareArray[i, x] == null)
+                        topY = i;
+                }
+
+                if (squareArray[topY, x] == null && squareArray[y, x] != null)
+                {
+                    squareArray[topY, x] = squareArray[y, x];
+                    squareArray[y, x] = null;
+                    squareArray[topY, x].GetComponent<Square>().Move(new Vector2(zeroIndexPos.x + (0.6f * x), zeroIndexPos.y - (0.6f * topY)));
+                }
+            }
         }
     }
 
@@ -232,6 +245,7 @@ public class GameManager : MonoBehaviour {
                 {
                     for (int i = 0; i < stack; i++)
                     {
+                        squareArray[(int)removeIndex[i].y, (int)removeIndex[i].x].GetComponent<Square>().isDestroy = true;
                         Destroy(squareArray[(int)removeIndex[i].y, (int)removeIndex[i].x]);
                     }
                 }

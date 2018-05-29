@@ -13,6 +13,8 @@ public class Square : MonoBehaviour {
     public int puzzleNum;
     public bool IsMove { get { return isMove; } }
     public Sprite[] gemSprite;
+    public GameObject destroyParticle;
+    public bool isDestroy = false;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +22,13 @@ public class Square : MonoBehaviour {
         puzzleNum = Random.Range(0, 7);
         gameObject.name = "square" + num++.ToString();
         gameObject.GetComponent<SpriteRenderer>().sprite = gemSprite[puzzleNum];
+
+        GameObject.Find("GameManager").GetComponent<GameManager>().CheckMatch();
+    }
+
+    private void OnDestroy()
+    {
+        if(isDestroy) Instantiate(destroyParticle).transform.position = transform.position;
     }
 
     // Update is called once per frame
