@@ -18,14 +18,15 @@ public class GameManager : MonoBehaviour {
 
     int stack = 1;
     int currentPuzzleNum = 0;
+    static int puzzleLength = 7;
 
 
     // Use this for initialization
     void Start () {
         zeroIndexPos = squarePrefab.transform.position;
-        squareArray = new GameObject[8, 8];
-        textIndex = new Text[8, 8];
-        tempIndex = new GameObject[8, 8];
+        squareArray = new GameObject[puzzleLength, puzzleLength];
+        textIndex = new Text[puzzleLength, puzzleLength];
+        tempIndex = new GameObject[puzzleLength, puzzleLength];
         //for(int i = 0; i < 8; i++)
         //{
         //    for(int y = 0; y < 8; y++)
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour {
         //}
 
         CreateSquare();
-        removeIndex = new Vector2[64];
+        removeIndex = new Vector2[puzzleLength * puzzleLength];
     }
 
     // Update is called once per frame
@@ -66,9 +67,9 @@ public class GameManager : MonoBehaviour {
     {
         if (CheckSquaerIsMove()) return;
 
-        for (int y = 0; y < 8; y++)
+        for (int y = 0; y < puzzleLength; y++)
         {
-            for (int x = 1; x < 8; x++)
+            for (int x = 1; x < puzzleLength; x++)
             {
                 if (squareArray[y, x] == null) { continue; }
                 int topX = 0;
@@ -92,14 +93,14 @@ public class GameManager : MonoBehaviour {
     {
         if (CheckSquaerIsMove()) return;
 
-        for (int y = 0; y < 8; y++)
+        for (int y = 0; y < puzzleLength; y++)
         {
-            for (int x = 6; x >= 0; x--)
+            for (int x = puzzleLength - 2; x >= 0; x--)
             {
                 if (squareArray[y, x] == null) { continue; }
-                int topX = 7;
+                int topX = puzzleLength - 1;
 
-                for (int i = x + 1; i < 8; i++)
+                for (int i = x + 1; i < puzzleLength; i++)
                 {
                     if (squareArray[y, i] == null) topX = i;
                 }
@@ -118,9 +119,9 @@ public class GameManager : MonoBehaviour {
     {
         if (CheckSquaerIsMove()) return;
 
-        for (int y = 1; y < 8; y++)
+        for (int y = 1; y < puzzleLength; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (int x = 0; x < puzzleLength; x++)
             {
                 if (squareArray[y, x] == null) { continue; }
                 int topY = 0;
@@ -144,14 +145,14 @@ public class GameManager : MonoBehaviour {
     {
         if (CheckSquaerIsMove()) return;
 
-        for (int y = 6; y >= 0; y--)
+        for (int y = puzzleLength - 2; y >= 0; y--)
         {
-            for (int x = 0; x < 8; x++)
+            for (int x = 0; x < puzzleLength; x++)
             {
                 if (squareArray[y, x] == null) { continue; }
-                int topY = 7;
+                int topY = puzzleLength - 1;
 
-                for (int i = y + 1; i < 8; i++)
+                for (int i = y + 1; i < puzzleLength; i++)
                 {
                     if (squareArray[i, x] == null)
                         topY = i;
@@ -177,8 +178,8 @@ public class GameManager : MonoBehaviour {
         int y = 0;
         while (true)
         {
-            x = Random.Range(0, 8);
-            y = Random.Range(0, 8);
+            x = Random.Range(0, puzzleLength);
+            y = Random.Range(0, puzzleLength);
             if (squareArray[y, x] == null) { break; }
         }
 
@@ -187,9 +188,9 @@ public class GameManager : MonoBehaviour {
 
     public bool IsFull()
     {
-        for(int y = 0; y < 8; y++)
+        for(int y = 0; y < puzzleLength; y++)
         {
-            for(int x = 0; x < 8; x++)
+            for(int x = 0; x < puzzleLength; x++)
             {
                 if (squareArray[y, x] == null) return false;
             }
@@ -200,9 +201,9 @@ public class GameManager : MonoBehaviour {
 
     public bool CheckSquaerIsMove()
     {
-        for(int y = 0; y < 8; y++)
+        for(int y = 0; y < puzzleLength; y++)
         {
-            for(int x = 0; x < 8; x++)
+            for(int x = 0; x < puzzleLength; x++)
             {
                 if (squareArray[y, x] == null) { continue; }
                 if (squareArray[y, x].GetComponent<Square>().IsMove) { return true; }
@@ -215,9 +216,9 @@ public class GameManager : MonoBehaviour {
 
     public void CheckBlock()
     {
-        for(int y = 0; y < 8; y++)
+        for(int y = 0; y < puzzleLength; y++)
         {
-            for(int x = 0; x < 8; x++)
+            for(int x = 0; x < puzzleLength; x++)
             {
                 if (squareArray[y, x] == null) tempIndex[y, x].GetComponent<SpriteRenderer>().color = new Color(0,0,0);
                 else tempIndex[y, x].GetComponent<SpriteRenderer>().color = new Color(255, 0, 0);
@@ -227,9 +228,9 @@ public class GameManager : MonoBehaviour {
     
     public void CheckMatch()
     {
-        for(int y = 0; y < 8; y++)
+        for(int y = 0; y < puzzleLength; y++)
         {
-            for(int x = 0; x < 8; x++)
+            for(int x = 0; x < puzzleLength; x++)
             {
                 if (squareArray[y,x] == null) continue;
                 if (squareArray[y, x].GetComponent<Square>().isCheck) continue;
@@ -252,9 +253,9 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        for(int y = 0; y < 8; y++)
+        for(int y = 0; y < puzzleLength; y++)
         {
-            for(int x = 0; x < 8; x++)
+            for(int x = 0; x < puzzleLength; x++)
             {
                 if (squareArray[y, x] == null) continue;
                 squareArray[y, x].GetComponent<Square>().isCheck = false;
@@ -271,9 +272,9 @@ public class GameManager : MonoBehaviour {
             squareArray[y, x].GetComponent<Square>().isCheck = true;
 
             if (0 <= x - 1) CheckSquare(x - 1, y);
-            if (7 >= x + 1) CheckSquare(x + 1, y);
+            if (puzzleLength - 1 >= x + 1) CheckSquare(x + 1, y);
             if (0 <= y - 1) CheckSquare(x, y - 1);
-            if (7 >= y + 1) CheckSquare(x, y + 1);
+            if (puzzleLength - 1 >= y + 1) CheckSquare(x, y + 1);
         }
     }
 }
