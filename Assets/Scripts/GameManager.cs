@@ -21,25 +21,16 @@ public class GameManager : MonoBehaviour {
     static int puzzleLength = 7;
 
 
-    // Use this for initialization
     void Start () {
         zeroIndexPos = squarePrefab.transform.position;
         squareArray = new GameObject[puzzleLength, puzzleLength];
         textIndex = new Text[puzzleLength, puzzleLength];
-        tempIndex = new GameObject[puzzleLength, puzzleLength];
-        //for(int i = 0; i < 8; i++)
-        //{
-        //    for(int y = 0; y < 8; y++)
-        //    {
-        //        tempIndex[i, y] = Instantiate(temp, new Vector3(-7 + (0.5f * y), 4 - (0.5f * i), 0), Quaternion.identity);
-        //    }
-        //}
+
 
         CreateSquare();
         removeIndex = new Vector2[puzzleLength * puzzleLength];
     }
 
-    // Update is called once per frame
     void Update () {
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
